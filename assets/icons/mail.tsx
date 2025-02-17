@@ -8,6 +8,7 @@ const Gmail = (props: SVGProps<SVGSVGElement>) => (
 		height="2em"
 		{...props}
 	>
+		<title>Gmail</title>
 		<g fill="none" fillRule="evenodd">
 			<g fillRule="nonzero">
 				<path

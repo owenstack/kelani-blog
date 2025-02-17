@@ -9,6 +9,7 @@ const Facebook = (props: SVGProps<SVGSVGElement>) => (
 		width="2em"
 		{...props}
 	>
+		<title>Facebook</title>
 		<defs>
 			<linearGradient x1="50%" x2="50%" y1="97.078%" y2="0%" id="a">
 				<stop offset="0%" stopColor="#0062E0" />

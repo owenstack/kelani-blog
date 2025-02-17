@@ -8,6 +8,7 @@
  *
  */
 
+import { cn } from "@/lib/utils";
 import {
 	PortableText,
 	type PortableTextBlock,
@@ -42,7 +43,7 @@ export function CustomPortableText({
 	};
 
 	return (
-		<div className={["prose", className].filter(Boolean).join(" ")}>
+		<div className={cn("prose", className)}>
 			<PortableText components={components} value={value} />
 		</div>
 	);

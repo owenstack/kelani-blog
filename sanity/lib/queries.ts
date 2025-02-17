@@ -26,6 +26,12 @@ export const moreStoriesQuery = defineQuery(`
   }
 `);
 
+export const moreStoriesWithoutLimitQuery = defineQuery(`
+  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
+    ${postFields}
+  }
+`);
+
 export const postQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug] [0] {
     content,
