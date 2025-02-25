@@ -26,7 +26,7 @@ export const moreStoriesQuery = defineQuery(`
   }
 `);
 
-export const moreStoriesWithoutLimitQuery = defineQuery(`
+export const moreStoriesWithoutSkip = defineQuery(`
   *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
   }

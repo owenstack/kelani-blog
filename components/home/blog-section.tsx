@@ -1,5 +1,5 @@
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { moreStoriesWithoutLimitQuery } from "@/sanity/lib/queries";
+import { moreStoriesWithoutSkip } from "@/sanity/lib/queries";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import { DateComponent } from "../date";
 
 export async function BlogSection(params: { limit: number }) {
 	const data = await sanityFetch({
-		query: moreStoriesWithoutLimitQuery,
+		query: moreStoriesWithoutSkip,
 		params,
 	});
 	return (

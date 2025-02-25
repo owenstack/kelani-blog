@@ -8,18 +8,11 @@ import { DateComponent } from "@/components/date";
 import { MoreStories } from "@/components/more-stories";
 import { CustomPortableText } from "@/components/portable-text";
 
-import Facebook from "@/assets/icons/facebook";
-import Instagram from "@/assets/icons/instagram";
-import LinkedIn from "@/assets/icons/linkedin";
-import Twitter from "@/assets/icons/twitter";
 import { ShareCard } from "@/components/home/share-card";
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { urlForImage } from "@/sanity/lib/utils";
-import { ArrowUp } from "lucide-react";
 import Image from "next/image";
 
 type Props = {
