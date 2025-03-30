@@ -20,6 +20,7 @@ import { pageStructure, singletonPlugin } from "@/sanity/plugins/settings";
 import author from "@/sanity/schemas/documents/author";
 import post from "@/sanity/schemas/documents/post";
 import settings from "@/sanity/schemas/singletons/settings";
+import comments from "@/sanity/schemas/documents/comments";
 
 const homeLocation = {
 	title: "Home",
@@ -37,6 +38,7 @@ export default defineConfig({
 			// Documents
 			post,
 			author,
+			comments,
 		],
 	},
 	plugins: [
@@ -63,7 +65,7 @@ export default defineConfig({
 							locations: [
 								{
 									title: doc?.title || "Untitled",
-									href: resolveHref("post", doc?.slug)!,
+									href: resolveHref("post", doc?.slug) as string,
 								},
 								homeLocation,
 							],

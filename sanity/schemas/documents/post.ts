@@ -69,6 +69,7 @@ export default defineType({
 					description: "Important for SEO and accessiblity.",
 					validation: (rule) => {
 						return rule.custom((alt, context) => {
+							// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 							if ((context.document?.coverImage as any)?.asset?._ref && !alt) {
 								return "Required";
 							}
