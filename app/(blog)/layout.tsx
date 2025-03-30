@@ -10,6 +10,7 @@ import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import { NavBar } from "@/components/nav-bar";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const settings = await sanityFetch({
@@ -52,15 +53,13 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const data = await sanityFetch({ query: settingsQuery });
 	const { isEnabled: isDraftMode } = await draftMode();
 
 	return (
 		<main className={`${body.variable}`}>
-			<section className="min-h-screen">
-				{isDraftMode && <AlertBanner />}
-				<main>{children}</main>
-			</section>
+			<NavBar />
+			{isDraftMode && <AlertBanner />}
+			{children}
 			{isDraftMode && <VisualEditing />}
 			<SpeedInsights />
 		</main>

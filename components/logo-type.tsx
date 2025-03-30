@@ -10,11 +10,7 @@ export function Logo({ className }: { className?: string }) {
 	return (
 		<Link href={"/"}>
 			<h1
-				className={cn(
-					className,
-					"font-bold text-secondary-foreground",
-					logotype.className,
-				)}
+				className={cn(className, "font-bold text-primary", logotype.className)}
 			>
 				Beyond Dogma
 			</h1>

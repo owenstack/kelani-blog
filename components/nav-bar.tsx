@@ -9,7 +9,7 @@ import { buttonVariants } from "./ui/button";
 export function NavBar() {
 	const pathname = usePathname();
 	return (
-		<header className="sticky top-0 z-50 flex items-center justify-between px-4 py-2 bg-primary/10 backdrop-blur-sm">
+		<header className="sticky top-10 z-50 flex items-center justify-between w-full md:max-w-lg px-4 py-2 place-self-center backdrop-blur-sm border rounded-full shadow-md">
 			<Logo />
 			<nav className="flex items-center gap-2">
 				<Link
@@ -17,7 +17,7 @@ export function NavBar() {
 					className={cn(
 						buttonVariants({ variant: "link" }),
 						pathname.startsWith("/posts") ? "underline" : "",
-						"text-primary-foreground",
+						"text-secondary",
 					)}
 				>
 					Articles
@@ -27,7 +27,7 @@ export function NavBar() {
 					className={cn(
 						buttonVariants({ variant: "link" }),
 						pathname.startsWith("/about") ? "underline" : "",
-						"text-primary-foreground",
+						"text-secondary",
 					)}
 				>
 					About
@@ -37,7 +37,7 @@ export function NavBar() {
 					className={cn(
 						buttonVariants({ variant: "link" }),
 						pathname.startsWith("/contact") ? "underline" : "",
-						"text-primary-foreground",
+						"text-secondary",
 					)}
 				>
 					Contact

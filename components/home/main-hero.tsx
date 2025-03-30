@@ -1,30 +1,9 @@
 import { Grid } from "@/assets/icons/grid";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-	Cloud,
-	Fan,
-	Flower,
-	Flower2,
-	Heart,
-	Leaf,
-	Moon,
-	Palette,
-	Shapes,
-	Snowflake,
-	Sparkles,
-	Star,
-	Sun,
-	Waves,
-	Zap,
-} from "lucide-react";
 import Link from "next/link";
 import { CustomPortableText } from "../portable-text";
-
-interface Integration {
-	id: string;
-	icon: JSX.Element;
-}
+import { type Integration, generateIntegrations } from "@/lib/constants";
 
 interface Hero32Props {
 	heading?: string;
@@ -33,51 +12,13 @@ interface Hero32Props {
 	integrations?: Integration[][];
 }
 
-const generateIntegrations = () => {
-	const icons = [
-		Flower,
-		Flower2,
-		Fan,
-		Leaf,
-		Cloud,
-		Sun,
-		Moon,
-		Star,
-		Heart,
-		Zap,
-		Sparkles,
-		Palette,
-		Shapes,
-		Snowflake,
-		Waves,
-	];
-
-	const rows = 3;
-	const iconsPerRow = 5;
-	const integrations: Integration[][] = [];
-
-	for (let i = 0; i < rows; i++) {
-		const row: Integration[] = [];
-		for (let j = 0; j < iconsPerRow; j++) {
-			const IconComponent = icons[i * iconsPerRow + j];
-			row.push({
-				id: `integration-${i * iconsPerRow + j + 1}`,
-				icon: <IconComponent className="w-full h-full text-primary" />,
-			});
-		}
-		integrations.push(row);
-	}
-
-	return integrations;
-};
-
 const MainHero = ({
 	heading = "Beyond Dogma",
 	description = "Welcome to a space where beauty meets mindfulness. Explore curated content on wellness, fashion, and personal growth designed to help you shine from within.",
 	integrations = generateIntegrations(),
 }: Hero32Props) => {
 	return (
-		<section className="relative overflow-hidden gradient min-h-screen">
+		<section className="relative overflow-hidden gradient -mt-[80px]">
 			<div className="absolute inset-0 overflow-hidden">
 				<Grid />
 			</div>
