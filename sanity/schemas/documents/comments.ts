@@ -8,8 +8,15 @@ export default defineType({
 	type: "document",
 	fields: [
 		defineField({
-			name: "name",
-			title: "Name",
+			name: "userId",
+			title: "User ID",
+			type: "string",
+			validation: (rule) => rule.required(),
+			description: "User ID to link user to their field in the database",
+		}),
+		defineField({
+			name: "username",
+			title: "Username",
 			type: "string",
 			validation: (rule) => rule.required(),
 			description: "Name of the person who left the comment",
@@ -18,14 +25,14 @@ export default defineType({
 			name: "email",
 			title: "Email address",
 			type: "string",
-			validation: (rule) => rule.required(),
+			validation: (rule) => rule.required().email(),
 			description: "Email address of the person who left the comment",
 		}),
 		defineField({
 			name: "comment",
 			title: "Comment",
 			type: "text",
-			validation: (rule) => rule.required(),
+			validation: (rule) => rule.required().min(1).max(1000),
 			description: "Comment left by the person",
 		}),
 		defineField({
@@ -33,11 +40,13 @@ export default defineType({
 			title: "Timestamp",
 			type: "datetime",
 			initialValue: () => new Date().toISOString(),
+			readOnly: true,
 		}),
 		defineField({
 			name: "post",
 			type: "reference",
 			to: [{ type: "post" }],
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			name: "parentComment",
@@ -51,12 +60,14 @@ export default defineType({
 			title: "Likes",
 			type: "number",
 			initialValue: 0,
+			readOnly: true,
 		}),
 		defineField({
 			name: "dislikes",
 			title: "Dislikes",
 			type: "number",
 			initialValue: 0,
+			readOnly: true,
 		}),
 		defineField({
 			name: "likedBy",
@@ -64,6 +75,7 @@ export default defineType({
 			type: "array",
 			of: [{ type: "string" }],
 			description: "Array of user emails who liked this comment",
+			readOnly: true,
 		}),
 		defineField({
 			name: "dislikedBy",
@@ -71,18 +83,19 @@ export default defineType({
 			type: "array",
 			of: [{ type: "string" }],
 			description: "Array of user emails who disliked this comment",
+			readOnly: true,
 		}),
 	],
 	preview: {
 		select: {
-			name: "name",
+			username: "username",
 			comment: "comment",
-			post: "post",
+			post: "post.title",
 			parentComment: "parentComment",
 		},
-		prepare({ name, comment, post, parentComment }) {
+		prepare({ username, comment, post, parentComment }) {
 			return {
-				title: `${parentComment ? "Reply to comment" : "Comment"} on ${post} by ${name}`,
+				title: `${parentComment ? "Reply to comment" : "Comment"} on "${post}" by ${username}`,
 				subtitle: comment,
 				description: comment,
 			};

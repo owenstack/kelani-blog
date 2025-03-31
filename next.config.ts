@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+initOpenNextCloudflareForDev();
 
 const nextConfig: NextConfig = {
 	env: {
@@ -6,7 +9,8 @@ const nextConfig: NextConfig = {
 		SC_DISABLE_SPEEDY: "false",
 	},
 	images: {
-		remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
+		loader: "custom",
+		loaderFile: "./lib/image-loader.ts",
 	},
 };
 

@@ -15,6 +15,7 @@ import {
 	Snowflake,
 	Waves,
 } from "lucide-react";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export interface Integration {
 	id: string;
@@ -58,3 +59,5 @@ export const generateIntegrations = () => {
 
 	return integrations;
 };
+
+export const cfContext = await getCloudflareContext({ async: true });

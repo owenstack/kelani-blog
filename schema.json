@@ -360,7 +360,14 @@
           "type": "string"
         }
       },
-      "name": {
+      "userId": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "username": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
