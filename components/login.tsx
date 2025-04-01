@@ -50,13 +50,15 @@ export function LoginForm() {
 						Enter your email below to login to your account
 					</p>
 				</div>
-				<Form action={handleSignIn} disabled={!token} className="grid gap-6">
+				<Form action={handleSignIn} className="grid gap-6">
 					<div className="grid gap-2">
 						<Label htmlFor="email">Email</Label>
 						<Input
 							id="email"
 							type="email"
+							name="name"
 							placeholder="someone@beyonddogma.blog"
+							autoComplete="email"
 							required
 						/>
 					</div>
@@ -70,9 +72,15 @@ export function LoginForm() {
 								Forgot your password?
 							</Link>
 						</div>
-						<Input id="password" type="password" required />
+						<Input
+							id="password"
+							type="password"
+							name="password"
+							autoComplete="current-password"
+							required
+						/>
 					</div>
-					<Submit>Log in</Submit>
+					<Submit disabled={!token}>Log in</Submit>
 				</Form>
 				<div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
 					<span className="relative z-10 bg-background px-2 text-muted-foreground">
