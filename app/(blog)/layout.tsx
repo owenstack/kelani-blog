@@ -1,16 +1,16 @@
+import { AlertBanner } from "@/components/alert-banner";
+import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { VisualEditing, toPlainText } from "next-sanity";
 import localFont from "next/font/local";
 import { draftMode } from "next/headers";
-import { Toaster } from "@/components/ui/sonner";
-import { AlertBanner } from "@/components/alert-banner";
 
+import { NavBar } from "@/components/nav-bar";
 import * as demo from "@/sanity/lib/demo";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { settingsQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
-import { NavBar } from "@/components/nav-bar";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const settings = await sanityFetch({

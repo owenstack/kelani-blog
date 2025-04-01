@@ -1,9 +1,9 @@
 import { Grid } from "@/assets/icons/grid";
 import { buttonVariants } from "@/components/ui/button";
+import { type Integration, generateIntegrations } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { CustomPortableText } from "../portable-text";
-import { type Integration, generateIntegrations } from "@/lib/constants";
 
 interface Hero32Props {
 	heading?: string;

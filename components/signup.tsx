@@ -1,19 +1,19 @@
 "use client";
 
+import Gradient from "@/assets/images/gradient.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Gradient from "@/assets/images/gradient.png";
-import { useState } from "react";
-import { Turnstile } from "@marsidev/react-turnstile";
-import { env } from "@/lib/env";
-import { toast } from "sonner";
-import Form from "next/form";
 import { signUp } from "@/lib/auth.client";
-import { GoogleSignIn } from "./google-login";
-import Link from "next/link";
+import { env } from "@/lib/env";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { Eye, EyeOff } from "lucide-react";
+import Form from "next/form";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { GoogleSignIn } from "./google-login";
 import { Submit } from "./submit";
 
 export function LoginForm() {

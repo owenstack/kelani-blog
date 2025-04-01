@@ -18,9 +18,9 @@ import { resolveHref } from "@/sanity/lib/utils";
 import { assistWithPresets } from "@/sanity/plugins/assist";
 import { pageStructure, singletonPlugin } from "@/sanity/plugins/settings";
 import author from "@/sanity/schemas/documents/author";
+import comments from "@/sanity/schemas/documents/comments";
 import post from "@/sanity/schemas/documents/post";
 import settings from "@/sanity/schemas/singletons/settings";
-import comments from "@/sanity/schemas/documents/comments";
 
 const homeLocation = {
 	title: "Home",

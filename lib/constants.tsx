@@ -1,19 +1,19 @@
 import {
+	Cloud,
+	Fan,
 	Flower,
 	Flower2,
-	Fan,
-	Leaf,
-	Cloud,
-	Sun,
-	Moon,
-	Star,
 	Heart,
-	Zap,
-	Sparkles,
+	Leaf,
+	Moon,
 	Palette,
 	Shapes,
 	Snowflake,
+	Sparkles,
+	Star,
+	Sun,
 	Waves,
+	Zap,
 } from "lucide-react";
 
 export interface Integration {

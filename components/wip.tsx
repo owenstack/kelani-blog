@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 import developer from "@/assets/icons/engineer.svg";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
 

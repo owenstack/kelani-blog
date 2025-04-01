@@ -1,6 +1,6 @@
-import { Logo } from "@/components/logo-type";
 import Gradient from "@/assets/images/gradient.png";
 import { LoginForm } from "@/components/login";
+import { Logo } from "@/components/logo-type";
 
 export default function LoginPage() {
 	return (

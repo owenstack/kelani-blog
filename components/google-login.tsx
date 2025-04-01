@@ -1,9 +1,9 @@
 import Google from "@/assets/icons/google";
+import { signIn } from "@/lib/auth.client";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button, type ButtonProps } from "./ui/button";
-import { signIn } from "@/lib/auth.client";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
 
 interface GoogleButton extends ButtonProps {
 	token?: string;

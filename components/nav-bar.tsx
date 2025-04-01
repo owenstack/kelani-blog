@@ -1,21 +1,21 @@
 "use client";
 
+import { useSession } from "@/lib/auth.client";
 import { cn } from "@/lib/utils";
+import { Loader2, UserCircle2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./logo-type";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { buttonVariants } from "./ui/button";
-import { Loader2, UserCircle2 } from "lucide-react";
 import {
 	NavigationMenu,
 	NavigationMenuContent,
 	NavigationMenuItem,
-	NavigationMenuTrigger,
 	NavigationMenuLink,
 	NavigationMenuList,
+	NavigationMenuTrigger,
 } from "./ui/navigation-menu";
-import { useSession } from "@/lib/auth.client";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const navLinks = [
 	{ href: "/posts", label: "Articles" },

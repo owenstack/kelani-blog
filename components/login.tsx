@@ -2,15 +2,15 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { signIn } from "@/lib/auth.client";
-import Form from "next/form";
-import { GoogleSignIn } from "./google-login";
-import { Turnstile } from "@marsidev/react-turnstile";
 import { env } from "@/lib/env";
-import { useState } from "react";
-import { Submit } from "./submit";
+import { Turnstile } from "@marsidev/react-turnstile";
+import Form from "next/form";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { GoogleSignIn } from "./google-login";
+import { Submit } from "./submit";
 
 export function LoginForm() {
 	const [token, setToken] = useState("");
