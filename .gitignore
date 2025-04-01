@@ -38,5 +38,9 @@ yarn-error.log*
 next-env.d.ts
 
 # Env files created by scripts for working locally
-.env
+.env*
 .env.local
+
+#cloudflare
+.wrangler
+.open-next

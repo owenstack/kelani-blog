@@ -74,7 +74,8 @@ export type Comment = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
+  userId?: string;
+  username?: string;
   email?: string;
   comment?: string;
   timestamp?: string;
