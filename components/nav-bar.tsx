@@ -95,10 +95,10 @@ export function NavBar() {
 										</Link>
 									))}
 									<Link
-										href={data?.user ? "/dashboard" : "/login"}
+										href={data?.user ? "/dashboard" : "/log-in"}
 										className={cn(
 											buttonVariants({ variant: "ghost", size: "sm" }),
-											pathname.startsWith(data?.user ? "/dashboard" : "/login")
+											pathname.startsWith(data?.user ? "/dashboard" : "/log-in")
 												? "bg-secondary/20"
 												: "hover:bg-secondary/10",
 											"w-full justify-start transition-colors",
@@ -113,7 +113,7 @@ export function NavBar() {
 				</NavigationMenuList>
 			</NavigationMenu>
 			<Link
-				href={data?.user ? "/dashboard" : "/login"}
+				href={data?.user ? "/dashboard" : "/log-in"}
 				className={cn(
 					buttonVariants({ variant: "outline", size: "icon" }),
 					"hidden md:flex bg-transparent size-fit rounded-full hover:bg-secondary/10 focus:bg-secondary/10 transition-colors p-1",

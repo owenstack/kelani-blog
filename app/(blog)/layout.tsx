@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { VisualEditing, toPlainText } from "next-sanity";
 import localFont from "next/font/local";
 import { draftMode } from "next/headers";
-
+import { Toaster } from "@/components/ui/sonner";
 import { AlertBanner } from "@/components/alert-banner";
 
 import * as demo from "@/sanity/lib/demo";
@@ -62,6 +62,7 @@ export default async function RootLayout({
 			{children}
 			{isDraftMode && <VisualEditing />}
 			<SpeedInsights />
+			<Toaster />
 		</main>
 	);
 }
