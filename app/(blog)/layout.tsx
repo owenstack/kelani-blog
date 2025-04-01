@@ -1,16 +1,16 @@
 import { AlertBanner } from "@/components/alert-banner";
+import { NavBar } from "@/components/nav-bar";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import * as demo from "@/sanity/lib/demo";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { settingsQuery } from "@/sanity/lib/queries";
+import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { VisualEditing, toPlainText } from "next-sanity";
 import localFont from "next/font/local";
 import { draftMode } from "next/headers";
-
-import { NavBar } from "@/components/nav-bar";
-import * as demo from "@/sanity/lib/demo";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { settingsQuery } from "@/sanity/lib/queries";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const settings = await sanityFetch({
@@ -56,13 +56,20 @@ export default async function RootLayout({
 	const { isEnabled: isDraftMode } = await draftMode();
 
 	return (
-		<main className={`${body.variable}`}>
-			<NavBar />
-			{isDraftMode && <AlertBanner />}
-			{children}
-			{isDraftMode && <VisualEditing />}
-			<SpeedInsights />
-			<Toaster />
+		<main className={`${body.variable}`} suppressHydrationWarning>
+			<ThemeProvider
+				attribute="class"
+				defaultTheme="system"
+				enableSystem
+				disableTransitionOnChange
+			>
+				<NavBar />
+				{isDraftMode && <AlertBanner />}
+				{children}
+				{isDraftMode && <VisualEditing />}
+				<SpeedInsights />
+				<Toaster />
+			</ThemeProvider>
 		</main>
 	);
 }
