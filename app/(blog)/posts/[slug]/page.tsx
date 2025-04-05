@@ -14,6 +14,7 @@ import { postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import { urlForImage } from "@/sanity/lib/utils";
 import Image from "next/image";
+import { CommentSection } from "@/components/comment-section";
 
 type Props = {
 	params: Promise<{ slug: string }>;
@@ -93,13 +94,18 @@ export default async function PostPage({ params }: Props) {
 				</div>
 				<div className="my-12 h-px w-full bg-border" />
 				<div className="relative grid grid-cols-1 gap-10 lg:grid-cols-12">
-					<article className="prose prose-gray dark:prose-invert lg:col-span-8 max-w-none">
+					<article className="lg:col-span-8 max-w-none">
 						{post.content?.length && (
 							<CustomPortableText value={post.content as PortableTextBlock[]} />
 						)}
 					</article>
 					<ShareCard title={post.title} />
 				</div>
+				<CommentSection
+					className="mt-24"
+					slug={post.slug ?? ""}
+					postId={post._id}
+				/>
 				<aside className="mt-24">
 					<div className="h-px w-full bg-border" />
 					<h2 className="my-12 text-3xl font-bold tracking-tight md:text-4xl">

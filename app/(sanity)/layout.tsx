@@ -1,9 +1,7 @@
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
-const inter = Inter({
-	variable: "--font-inter",
-	subsets: ["latin"],
-	display: "swap",
+const body = localFont({
+	src: "../../assets/fonts/body.ttf",
 });
 
 export { metadata, viewport } from "next-sanity/studio";
@@ -13,5 +11,5 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	return <main className={`min-h-screen ${inter.variable}`}>{children}</main>;
+	return <main className={`min-h-screen ${body.className}`}>{children}</main>;
 }

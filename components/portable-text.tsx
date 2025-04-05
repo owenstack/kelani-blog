@@ -43,7 +43,7 @@ export function CustomPortableText({
 	};
 
 	return (
-		<div className={cn("prose", className)}>
+		<div className={cn("prose dark:prose-invert", className)}>
 			<PortableText components={components} value={value} />
 		</div>
 	);

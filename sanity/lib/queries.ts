@@ -38,3 +38,91 @@ export const postQuery = defineQuery(`
     ${postFields}
   }
 `);
+
+export const postCommentsQuery = defineQuery(`
+  *[_type == "comment" && post._ref == $postId && !defined(parentComment)] | order(timestamp desc) [$start...$end] {
+    _id,
+    username,
+    comment,
+    timestamp,
+    likes,
+    dislikes,
+    likedBy,
+    dislikedBy
+  }
+`);
+
+export const commentRepliesQuery = defineQuery(`
+  *[_type == "comment" && parentComment._ref == $commentId] | order(timestamp desc) [$start...$end] {
+    _id,
+    userId,
+    username,
+    email,
+    comment,
+    timestamp,
+    likes,
+    dislikes,
+    likedBy,
+    dislikedBy
+  }
+`);
+
+export const createCommentMutation = /* groq */ `
+  *[_type == "comment"] {
+    _type,
+    userId,
+    username,
+    email,
+    comment,
+    post: {
+      "_ref": $postId,
+      "_type": "reference"
+    }
+  }
+`;
+
+export const createCommentReplyMutation = /* groq */ `
+  *[_type == "comment"] {
+    _type,
+    userId,
+    username,
+    email,
+    comment,
+    post: {
+      "_ref": $postId,
+      "_type": "reference"
+    },
+    parentComment: {
+      "_ref": $commentId,
+      "_type": "reference"
+    }
+  }
+`;
+
+export const likeCommentMutation = /* groq */ `
+  *[_type == "comment" && _id == $commentId] {
+    "likes": likes + 1,
+    "likedBy": array::unique(array::union(coalesce(likedBy, []), [$userEmail]))
+  }
+`;
+
+export const unlikeCommentMutation = /* groq */ `
+  *[_type == "comment" && _id == $commentId] {
+    "likes": likes - 1,
+    "likedBy": array::filter(coalesce(likedBy, []), @item != $userEmail)
+  }
+`;
+
+export const dislikeCommentMutation = /* groq */ `
+  *[_type == "comment" && _id == $commentId] {
+    "dislikes": dislikes + 1,
+    "dislikedBy": array::unique(array::union(coalesce(dislikedBy, []), [$userEmail]))
+  }
+`;
+
+export const undislikeCommentMutation = /* groq */ `
+  *[_type == "comment" && _id == $commentId] {
+    "dislikes": dislikes - 1,
+    "dislikedBy": array::filter(coalesce(dislikedBy, []), @item != $userEmail)
+  }
+`;

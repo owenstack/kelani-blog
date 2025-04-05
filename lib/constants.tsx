@@ -58,3 +58,18 @@ export const generateIntegrations = () => {
 
 	return integrations;
 };
+
+export interface CommentProps {
+	id: string;
+	comment: string | null;
+	postId: string;
+	likes: number | null;
+	dislikes: number | null;
+	liked: boolean;
+	disliked: boolean;
+	slug: string;
+	replyCount?: number;
+	isReply?: boolean;
+	level?: number;
+	parentId?: string;
+}

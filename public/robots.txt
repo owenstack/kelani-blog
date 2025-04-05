@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.beyonddogma.blog
+
+# Sitemaps
+Sitemap: https://www.beyonddogma.blog/sitemap.xml
