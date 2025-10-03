@@ -1,0 +1,77 @@
+---
+import "../../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import { SEO } from "astro-seo";
+import { Toaster } from "sonner";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
+
+export interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+	date?: string;
+	type?: "website" | "article";
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const { title, description, image, date, type = "website" } = Astro.props;
+
+const resolvedImageWithDomain =
+	image ?? new URL("/placeholder.png", Astro.site).toString();
+
+const makeTitle = title ? `${title} | Beyond Dogma` : "Beyond Dogma";
+
+const makeDescription = description
+	? description
+	: "Exploring spirituality through Islam and Christianity, comparing differences and similarities, and seeking truth without bias, for personal salvation and spiritual awakening.";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+        <ClientRouter />
+		<SEO title={makeTitle} description={makeDescription} canonical={canonicalURL} twitter={{
+            creator: '@owenEEfobi',
+            site: '@owenEEfobi',
+            card: 'summary_large_image',
+        }}
+        openGraph={{
+            basic: {
+            title: 'Beyond Dogma',
+            description: makeDescription,
+            url: canonicalURL,
+            type,
+            image: resolvedImageWithDomain
+            },
+            article: date ? { publishedTime: new Date(date).toISOString() } : undefined,
+        }}
+        openGraph={{
+        basic: {
+          url: canonicalURL,
+          type,
+          title: makeTitle,
+          image: resolvedImageWithDomain,
+        },
+        image: {
+          alt: "Beyond Dogma",
+        },
+      }} />
+	</head>
+	<body>
+        <Header client:load />
+		<slot />
+        <Footer client:load/>
+        <Toaster richColors client:load />
+        <style is:global>
+      /* Improve Page speed */
+      /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
+      img {
+        content-visibility: auto;
+      }
+    </style>
+	</body>
+</html>
