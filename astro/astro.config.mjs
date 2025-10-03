@@ -1,10 +1,10 @@
 // @ts-check
-import { defineConfig } from "astro/config";
 
-import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
-
 import react from "@astrojs/react";
+import sanity from "@sanity/astro";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,5 +14,12 @@ export default defineConfig({
 	},
 
 	adapter: cloudflare(),
-	integrations: [react()],
+	integrations: [
+		react(),
+		sanity({
+			projectId: "s3ub5fy7",
+			dataset: "production",
+			useCdn: process.env.NODE_ENV === "production",
+		}),
+	],
 });

@@ -11,6 +11,8 @@
 	"dependencies": {
 		"@astrojs/cloudflare": "^12.6.9",
 		"@astrojs/react": "^4.4.0",
+		"@sanity/astro": "^3.2.10",
+		"@sanity/client": "^7.11.2",
 		"@tailwindcss/vite": "^4.1.14",
 		"@types/react": "^19.2.0",
 		"@types/react-dom": "^19.2.0",
@@ -23,7 +25,10 @@
 		"next-themes": "^0.4.6",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
+		"react-is": "^19.2.0",
+		"sanity": "^4.10.2",
 		"sonner": "^2.0.7",
+		"styled-components": "^6.1.19",
 		"tailwind-merge": "^3.3.1",
 		"tailwindcss": "^4.1.14"
 	},

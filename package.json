@@ -1,6 +1,9 @@
 {
-  "dependencies": {},
-  "devDependencies": {
-    "@biomejs/biome": "2.2.5"
-  }
+	"scripts": {
+		"format": "biome check --write"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.5"
+	}
 }
