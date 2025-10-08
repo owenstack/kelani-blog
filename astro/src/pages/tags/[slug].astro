@@ -1,0 +1,39 @@
+---
+export const prerender = false;
+const { slug } = Astro.params;
+
+import { runQuery } from "@/sanity/queries";
+import { postsFromTagQuery, tagFromSlugQuery } from "@/sanity/queries/tags";
+import Layout from "../layouts/Layout.astro";
+
+if (!slug) {
+	return Astro.redirect("/");
+}
+
+const tag = await runQuery(tagFromSlugQuery, {
+	parameters: { slug },
+});
+
+if (!tag) {
+	return Astro.redirect("/");
+}
+const posts = await runQuery(postsFromTagQuery, {
+	parameters: { _id: tag._id },
+});
+
+console.log(posts);
+---
+
+<Layout title={tag.title} description={tag.description ?? undefined}>
+    <h1>Tag: {tag.title}</h1>
+    {tag && (
+        <pre>{JSON.stringify(posts, null, 2)}</pre>
+        // <ul>
+        // 	{posts.map((post) => (
+        // 		<li key={post._id}>
+        // 			<a href={`/post/${post.slug.current}`}>{post.title}</a>
+        // 		</li>
+        // 	))}
+        // </ul>
+    )}
+</Layout>

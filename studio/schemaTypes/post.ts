@@ -44,12 +44,14 @@ export default defineType({
 			name: "content",
 			title: "Content",
 			type: "array",
-			of: [{ type: "block" }],
+			of: [{ type: "block" }, { type: "image" }],
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			name: "excerpt",
 			title: "Excerpt",
 			type: "text",
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			name: "coverImage",
@@ -82,12 +84,21 @@ export default defineType({
 			title: "Date",
 			type: "datetime",
 			initialValue: () => new Date().toISOString(),
+			validation: (rule) => rule.required(),
 		}),
 		defineField({
 			name: "author",
 			title: "Author",
 			type: "reference",
 			to: [{ type: authorType.name }],
+			validation: (rule) => rule.required(),
+		}),
+		defineField({
+			name: "tags",
+			title: "Tags",
+			type: "array",
+			of: [{ type: "reference", to: [{ type: "tag" }] }],
+			validation: (rule) => rule.required(),
 		}),
 	],
 	preview: {

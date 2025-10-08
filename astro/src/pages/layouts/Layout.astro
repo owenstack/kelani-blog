@@ -2,9 +2,9 @@
 import "../../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SEO } from "astro-seo";
+import { Menu, Search } from "lucide-react";
 import { Toaster } from "sonner";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
+import Logo from "@/components/logo.astro";
 
 export interface Props {
 	title: string;
@@ -20,17 +20,38 @@ const { title, description, image, date, type = "website" } = Astro.props;
 const resolvedImageWithDomain =
 	image ?? new URL("/placeholder.png", Astro.site).toString();
 
-const makeTitle = title ? `${title} | Beyond Dogma` : "Beyond Dogma";
+const makeTitle = `${title} | Beyond Dogma`;
 
 const makeDescription = description
 	? description
-	: "Exploring spirituality through Islam and Christianity, comparing differences and similarities, and seeking truth without bias, for personal salvation and spiritual awakening.";
+	: "Exploring spirituality, comparing differences and similarities, and seeking truth without bias, for personal salvation and spiritual awakening.";
+
+const year = new Date().getFullYear();
 ---
+<script is:inline>
+	const getThemePreference = () => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+			return localStorage.getItem('theme');
+		}
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	};
+	const isDark = getThemePreference() === 'dark';
+	document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+ 
+	if (typeof localStorage !== 'undefined') {
+		const observer = new MutationObserver(() => {
+			const isDark = document.documentElement.classList.contains('dark');
+			localStorage.setItem('theme', isDark ? 'dark' : 'light');
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
+</script>
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
         <ClientRouter />
@@ -38,33 +59,33 @@ const makeDescription = description
             creator: '@owenEEfobi',
             site: '@owenEEfobi',
             card: 'summary_large_image',
+            image: resolvedImageWithDomain,
+            title: makeTitle,
+            description: makeDescription,
+            imageAlt: makeDescription
         }}
         openGraph={{
             basic: {
             title: 'Beyond Dogma',
-            description: makeDescription,
             url: canonicalURL,
             type,
             image: resolvedImageWithDomain
             },
             article: date ? { publishedTime: new Date(date).toISOString() } : undefined,
-        }}
-        openGraph={{
-        basic: {
-          url: canonicalURL,
-          type,
-          title: makeTitle,
-          image: resolvedImageWithDomain,
-        },
-        image: {
-          alt: "Beyond Dogma",
-        },
-      }} />
+        }}/>
 	</head>
 	<body>
-        <Header client:load />
+        <header class="sticky top-0 z-40 flex h-16 w-full items-center justify-between px-8 border-b bg-accent">
+			<Logo hideMark={false} className="text-2xl" />
+			<div class="flex items-center gap-4">
+				<Search className="size-4" />
+				<Menu className="size-4" />
+			</div>
+		</header>
 		<slot />
-        <Footer client:load/>
+    <footer class="w-full flex items-center justify-center border-t bg-accent py-4">
+      <div>© <span id="footer-year">{year}</span> Beyond Dogma. All rights reserved.</div>
+    </footer>
         <Toaster richColors client:load />
         <style is:global>
       /* Improve Page speed */
@@ -74,4 +95,7 @@ const makeDescription = description
       }
     </style>
 	</body>
+  <script is:inline data-astro-rerun>
+  document.getElementById("footer-year").innerText = new Date().getFullYear();
+</script>
 </html>

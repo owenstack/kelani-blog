@@ -2,6 +2,7 @@
 
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import sanity from "@sanity/astro";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
@@ -17,9 +18,10 @@ export default defineConfig({
 	integrations: [
 		react(),
 		sanity({
-			projectId: "s3ub5fy7",
+			projectId: "kzhzgcbq",
 			dataset: "production",
-			useCdn: process.env.NODE_ENV === "production",
+			useCdn: import.meta.env.MODE === "production",
 		}),
+		sitemap(),
 	],
 });

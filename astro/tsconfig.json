@@ -6,7 +6,8 @@
 		"jsx": "react-jsx",
 		"jsxImportSource": "react",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@beyond-dogma/studio/*": ["../studio/*"]
 		},
 		"types": ["@sanity/astro/module"]
 	}

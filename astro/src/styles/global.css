@@ -1,6 +1,30 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@font-face {
+	src: url("../assets/fonts/title.ttf");
+	font-family: "title";
+}
+
+@font-face {
+	src: url("../assets/fonts/logotype.ttf");
+	font-family: "logo";
+}
+
+@font-face {
+	src: url("../assets/fonts/body.ttf");
+	font-family: "body";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: bitter;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -115,6 +139,9 @@
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground;
+		@apply bg-background text-foreground font-[body] antialiased;
+	}
+	html {
+		@apply scroll-smooth;
 	}
 }

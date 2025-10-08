@@ -9,6 +9,8 @@
 		"start": "sanity start",
 		"build": "sanity build",
 		"deploy": "sanity deploy",
+		"format": "biome check --write",
+		"sanity:typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
 		"deploy-graphql": "sanity graphql deploy"
 	},
 	"keywords": [
@@ -19,6 +21,7 @@
 		"react": "^19.1",
 		"react-dom": "^19.1",
 		"sanity": "^4.10.2",
+		"sanity-plugin-asset-source-unsplash": "^4.0.1",
 		"styled-components": "^6.1.18"
 	},
 	"devDependencies": {
