@@ -2,9 +2,9 @@
 import "../../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SEO } from "astro-seo";
-import { Menu } from "lucide-react";
 import { Toaster } from "sonner";
 import Logo from "@/components/logo.astro";
+import { NavSheet } from "@/components/nav";
 import { SearchSheet } from "@/components/search";
 
 export interface Props {
@@ -62,7 +62,7 @@ const year = new Date().getFullYear();
 			<Logo hideMark={false} className="text-2xl" />
 			<div class="flex items-center gap-4">
 				<SearchSheet client:load />
-				<Menu className="size-4" />
+				<NavSheet client:load />
 			</div>
 		</header>
 	<main class="min-h-screen w-full bg-gradient-to-b from-background to-secondary/25">
