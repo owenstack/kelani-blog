@@ -1,0 +1,19 @@
+---
+import { sanityClient } from "sanity:client";
+import imageUrlBuilder from "@sanity/image-url";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+const imageBuilder = imageUrlBuilder(sanityClient);
+
+function urlFor(source: SanityImageSource) {
+	return imageBuilder.image(source);
+}
+
+const { node } = Astro.props;
+---
+<img
+  src={urlFor(node.asset).width(1080).url()}
+  alt="in-article-image"
+  loading="lazy"
+  class="my-4 rounded-lg w-full max-w-full h-auto max-h-[60vh] object-contain"
+/>

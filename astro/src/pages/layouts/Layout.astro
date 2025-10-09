@@ -82,7 +82,9 @@ const year = new Date().getFullYear();
 				<Menu className="size-4" />
 			</div>
 		</header>
+	<main class="min-h-screen w-full bg-gradient-to-b from-background to-secondary/25">
 		<slot />
+		</main>
     <footer class="w-full flex items-center justify-center border-t bg-accent py-4">
       <div>© <span id="footer-year">{year}</span> Beyond Dogma. All rights reserved.</div>
     </footer>

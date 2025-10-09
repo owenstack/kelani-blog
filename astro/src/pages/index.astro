@@ -14,7 +14,6 @@ const recentPosts = await runQuery(recentPostsQuery, {
 ---
 
 <Layout title="Home">
-	<main class="min-h-screen w-full bg-gradient-to-b from-background to-secondary/25">
 		<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
 			{
 				topPosts.map((post, i) => (
@@ -96,5 +95,4 @@ const recentPosts = await runQuery(recentPostsQuery, {
 				))}
 			</div>
 		</section>
-	</main>
 </Layout>
