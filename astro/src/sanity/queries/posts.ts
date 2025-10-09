@@ -43,3 +43,35 @@ export const relatedPostsQuery = q
 			.deref()
 			.field("url", z.string().nullable()),
 	}));
+
+export const createFetchPostsQuery = (limit: number) =>
+	q
+		.parameters<{
+			lastPostDate: string | null;
+			lastPostId: string | null;
+		}>()
+		.star.filterByType("post")
+		.filterRaw(
+			"$lastPostDate == null || date < $lastPostDate || (date == $lastPostDate && _id < $lastPostId)",
+		)
+		.order("date desc", "_id desc")
+		.slice(0, limit)
+		.project((sub) => ({
+			_id: z.string(),
+			date: z.string(),
+			title: z.string(),
+			slug: sub.field("slug.current", z.string()),
+			coverImage: sub
+				.field("coverImage.asset")
+				.deref()
+				.field("url", z.string().nullable()),
+			excerpt: z.string(),
+			tags: sub
+				.field("tags[]")
+				.deref()
+				.project({
+					_id: z.string(),
+					title: z.string(),
+					slug: ["slug.current", z.string()],
+				}),
+		}));

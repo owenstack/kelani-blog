@@ -15,11 +15,12 @@ export const tagFromSlugQuery = q
 export const postsFromTagQuery = q
 	.parameters<{ _id: string }>()
 	.star.filterByType("post")
-	.filterRaw("_id in tags[]._ref == $_id")
+	.filterRaw("$_id in tags[]._ref")
 	.order("date desc")
 	.project((sub) => ({
 		_id: z.string(),
 		title: z.string(),
+		excerpt: z.string().nullable(),
 		slug: sub.field("slug.current", z.string()),
 		tags: sub
 			.field("tags[]")
@@ -34,3 +35,9 @@ export const postsFromTagQuery = q
 			.deref()
 			.field("url", z.string().nullable()),
 	}));
+
+export const allTagsQuery = q.star.filterByType("tag").project({
+	_id: z.string(),
+	title: z.string(),
+	slug: ["slug.current", z.string()],
+});

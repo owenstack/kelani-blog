@@ -1,7 +1,33 @@
 ---
+import PostList from "@/components/posts/PostList.tsx";
+import { runQuery } from "@/sanity/queries";
+import { createFetchPostsQuery } from "@/sanity/queries/posts";
 import Layout from "../layouts/Layout.astro";
+
+const initialPosts = await runQuery(createFetchPostsQuery(10), {
+	parameters: {
+		lastPostDate: "9999-12-31T23:59:59Z",
+		lastPostId: "~",
+	},
+});
 ---
 
-<Layout title="Posts" description="Read the latest articles on spirituality, personal growth, and more." image="/placeholder.png" type="website">
-    <h1>Posts</h1>
+<Layout
+	title="Posts"
+	description="Read the latest articles on spirituality, personal growth, and more."
+	image="/placeholder.png"
+	type="website"
+>
+	<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+		<h2
+			class="mb-4 text-3xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl"
+		>
+			Posts
+		</h2>
+		{initialPosts && initialPosts.length > 0 ? (
+			<PostList client:load initialPosts={initialPosts} />
+		) : (
+			<p>Something went wrong</p>
+		)}
+	</section>
 </Layout>
