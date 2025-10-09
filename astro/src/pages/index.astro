@@ -1,5 +1,5 @@
 ---
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { runQuery } from "@/sanity/queries";
 import {
 	recentPostsQuery,
@@ -73,14 +73,8 @@ const recentPosts = await runQuery(recentPostsQuery, {
 							{post.tags?.length > 0 && (
 								<div class="mt-auto flex flex-wrap gap-2 border-t border-border/50 pt-4">
 									{post.tags.slice(0, 3).map((tag) => (
-										<a href={`/tags/${tag.slug}`} class="inline-flex">
-											<Button
-												variant="outline"
-												size="sm"
-												className="text-xs transition-colors hover:bg-primary hover:text-primary-foreground"
-											>
+										<a href={`/tags/${tag.slug}`} class={buttonVariants({variant: 'outline', size: 'sm'})}>
 												{tag.title}
-											</Button>
 										</a>
 									))}
 									{post.tags.length > 3 && (

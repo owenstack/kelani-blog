@@ -23,7 +23,7 @@ const relatedPosts = await runQuery(relatedPostsQuery, {
 
 <Layout title={post.title} description={post.excerpt} image={post.coverImage ?? undefined} date={post.date} type='article'>
 		<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
-            <img src={post.coverImage ?? '/placholder.png'} alt={post.title} class="h-auto w-full border-2 border-border" />
+            <img src={post.coverImage ?? '/placholder.png'} alt={post.title} class="h-auto w-full border-2 border-border rounded-lg" />
             <div class="space-y-4">
                 <h1 class="text-balance font-semibold tracking-tight leading-tight text-4xl md:text-5xl lg:text-6xl">
                     {post.title}

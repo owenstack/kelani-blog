@@ -44,3 +44,21 @@ export const recentPostsQuery = q
 			.deref()
 			.field("url", z.string().nullable()),
 	}));
+
+export const searchPostsQuery = q
+	.parameters<{ query: string }>()
+	.star.filterByType("post")
+	.filterRaw(
+		"title match '*' + $query + '*' || excerpt match '*' + $query + '*'",
+	)
+	.order("date desc")
+	.project((sub) => ({
+		_id: z.string(),
+		title: z.string(),
+		slug: sub.field("slug.current", z.string()),
+		excerpt: z.string(),
+		coverImage: sub
+			.field("coverImage.asset")
+			.deref()
+			.field("url", z.string().nullable()),
+	}));

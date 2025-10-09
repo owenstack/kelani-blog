@@ -1,7 +1,7 @@
 import { actions } from "astro:actions";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 type Post = {
 	_id: string;
@@ -40,7 +40,9 @@ export default function PostList({ initialPosts }: Props) {
 				lastPostId,
 			});
 			if (error) {
-				toast.error(error.message);
+				toast.error(error.code, {
+					description: error.message,
+				});
 				return;
 			}
 			if (newPosts.length > 0) {
@@ -89,16 +91,13 @@ export default function PostList({ initialPosts }: Props) {
 									{post.tags.slice(0, 3).map((tag) => (
 										<a
 											href={`/tags/${tag.slug}`}
-											className="inline-flex"
+											className={buttonVariants({
+												variant: "outline",
+												size: "sm",
+											})}
 											key={tag._id}
 										>
-											<Button
-												variant="outline"
-												size="sm"
-												className="text-xs transition-colors hover:bg-primary hover:text-primary-foreground"
-											>
-												{tag.title}
-											</Button>
+											{tag.title}
 										</a>
 									))}
 									{post.tags.length > 3 && (

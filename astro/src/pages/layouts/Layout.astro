@@ -2,9 +2,10 @@
 import "../../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SEO } from "astro-seo";
-import { Menu, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Toaster } from "sonner";
 import Logo from "@/components/logo.astro";
+import { SearchSheet } from "@/components/search";
 
 export interface Props {
 	title: string;
@@ -32,7 +33,7 @@ const year = new Date().getFullYear();
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="icon" type="image/png" href="/gradient.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
@@ -60,7 +61,7 @@ const year = new Date().getFullYear();
         <header class="sticky top-0 z-40 flex h-16 w-full items-center justify-between px-8 border-b bg-accent">
 			<Logo hideMark={false} className="text-2xl" />
 			<div class="flex items-center gap-4">
-				<Search className="size-4" />
+				<SearchSheet client:load />
 				<Menu className="size-4" />
 			</div>
 		</header>
