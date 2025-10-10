@@ -1,7 +1,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "beyond-dogma",
-	"main": "./dist/_worker.js/index.js",
+	"main": "./dist/_worker.js",
 	"compatibility_date": "2025-10-05",
 	"compatibility_flags": ["nodejs_compat"],
 	"assets": {
