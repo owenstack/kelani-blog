@@ -14,9 +14,9 @@ export default defineConfig({
 		plugins: [tailwindcss()],
 	},
 	adapter: cloudflare({
-		imageService: 'cloudflare'
+		imageService: "cloudflare",
 	}),
-		output: 'server',
+	output: "server",
 	integrations: [
 		react(),
 		sanity({
@@ -28,11 +28,26 @@ export default defineConfig({
 	],
 	env: {
 		schema: {
-			BETTER_AUTH_SECRET: envField.string({context: 'server', access: 'secret'}),
-			GOOGLE_CLIENT_ID: envField.string({context: 'server', access: 'secret'}),
-			GOOGLE_CLIENT_SECRET: envField.string({context: 'server', access: 'secret'}),
-			CLOUDFLARE_D1_API_TOKEN: envField.string({context: 'server', access: 'secret'}),
-			CLOUDFLARE_D1_ACCOUNT_ID: envField.string({context: 'server', access: 'secret'}),
-		}
-	}
+			BETTER_AUTH_SECRET: envField.string({
+				context: "server",
+				access: "secret",
+			}),
+			GOOGLE_CLIENT_ID: envField.string({
+				context: "server",
+				access: "secret",
+			}),
+			GOOGLE_CLIENT_SECRET: envField.string({
+				context: "server",
+				access: "secret",
+			}),
+			CLOUDFLARE_D1_API_TOKEN: envField.string({
+				context: "server",
+				access: "secret",
+			}),
+			CLOUDFLARE_D1_ACCOUNT_ID: envField.string({
+				context: "server",
+				access: "secret",
+			}),
+		},
+	},
 });

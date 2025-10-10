@@ -4,8 +4,11 @@ const { slug } = Astro.params;
 
 import PortableText from "@/components/portable-text/index.astro";
 import { runQuery } from "@/sanity/queries";
-import { postFromSlugQuery, relatedPostsQuery } from "@/sanity/queries/posts";
-
+import {
+	commentsByPostIdQuery,
+	postFromSlugQuery,
+	relatedPostsQuery,
+} from "@/sanity/queries/posts";
 import Layout from "../layouts/Layout.astro";
 
 if (!slug) {
@@ -16,9 +19,13 @@ const post = await runQuery(postFromSlugQuery, { parameters: { slug } });
 if (!post) {
 	return Astro.redirect("/");
 }
-const relatedPosts = await runQuery(relatedPostsQuery, {
-	parameters: { tags: post.tags.map((tag) => tag._id), excludeId: post._id },
-});
+
+const [relatedPosts, comments] = await Promise.all([
+	runQuery(relatedPostsQuery, {
+		parameters: { tags: post.tags.map((tag) => tag._id), excludeId: post._id },
+	}),
+	runQuery(commentsByPostIdQuery, { parameters: { postId: post._id } }),
+]);
 ---
 
 <Layout title={post.title} description={post.excerpt} image={post.coverImage ?? undefined} date={post.date} type='article'>
@@ -37,6 +44,11 @@ const relatedPosts = await runQuery(relatedPostsQuery, {
             <article>
                 <PortableText value={post.content} />
             </article>
+        </section>
+        <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+            <h2 class="mb-4 text-2xl font-semibold leading-tight tracking-tight md:text-4xl lg:text-5xl">
+				Comments
+			</h2>
         </section>
         {relatedPosts.length > 0 && (
         <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">

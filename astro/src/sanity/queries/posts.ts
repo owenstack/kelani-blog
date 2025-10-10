@@ -75,3 +75,19 @@ export const createFetchPostsQuery = (limit: number) =>
 					slug: ["slug.current", z.string()],
 				}),
 		}));
+
+export const commentsByPostIdQuery = q
+	.parameters<{ postId: string }>()
+	.star.filterByType("comment")
+	.filterRaw("post._ref == $postId && !defined(parentComment)")
+	.order("_updatedAt desc")
+	.project((sub) => ({
+		_id: z.string(),
+		username: z.string(),
+		comment: z.string(),
+		likes: z.number().nullable().default(0),
+		dislikes: z.number().nullable().default(0),
+		replies: sub
+			.raw('count(*[_type == "comment" && parentComment._ref == ^._id])')
+			.as<number>(),
+	}));

@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**/*.{ts,tsx,js,jsx,astro}"]
+		"includes": ["**", "**/*.{ts,tsx,js,jsx,astro}", "!**/*.d.ts", "!**/*.css"]
 	},
 	"formatter": {
 		"enabled": true,

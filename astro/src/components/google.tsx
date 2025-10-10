@@ -1,11 +1,11 @@
-import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
-import { signIn } from "@/lib/auth-client";
+import { useState } from "react";
 import { toast } from "sonner";
-import {useState} from "react";
+import { signIn } from "@/lib/auth-client";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
-export function GoogleSignIn({className}: {className?: string}) {
-    const [loading, setLoading] = useState(false);
+export function GoogleSignIn({ className }: { className?: string }) {
+	const [loading, setLoading] = useState(false);
 	const handleSignIn = async () => {
 		setLoading(true);
 		toast.promise(
@@ -29,9 +29,13 @@ export function GoogleSignIn({className}: {className?: string}) {
 			},
 		);
 	};
-    return (
-        <Button onClick={handleSignIn} disabled={loading} className={cn("w-full", className)}>
-            {loading ? "Loading..." : "Sign in with Google"}
-        </Button>
-    )
+	return (
+		<Button
+			onClick={handleSignIn}
+			disabled={loading}
+			className={cn("w-full", className)}
+		>
+			{loading ? "Loading..." : "Sign in with Google"}
+		</Button>
+	);
 }

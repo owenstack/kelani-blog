@@ -1,4 +1,5 @@
 import { Menu } from "lucide-react";
+import { useSession } from "@/lib/auth-client";
 import { buttonVariants } from "./ui/button";
 import { Separator } from "./ui/separator";
 import {
@@ -8,7 +9,6 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "./ui/sheet";
-import { useSession } from "@/lib/auth-client";
 
 const navLinks: {
 	title: string;
@@ -48,7 +48,7 @@ const socialLinks: { title: string; href: string }[] = [
 ];
 
 export function NavSheet() {
-	const {data} = useSession()
+	const { data } = useSession();
 	return (
 		<Sheet>
 			<SheetTrigger className={buttonVariants({ variant: "ghost" })}>
@@ -68,9 +68,12 @@ export function NavSheet() {
 							{link.title}
 						</a>
 					))}
-					<a href={data?.user ? '/dashboard' : '/login'} className="-mx-2 rounded-md p-2 text-xl font-medium transition-colors hover:bg-muted/50">
-						{data?.user ? 'Dashboard' : 'Log in'}
-						</a>
+					<a
+						href={data?.user ? "/dashboard" : "/login"}
+						className="-mx-2 rounded-md p-2 text-xl font-medium transition-colors hover:bg-muted/50"
+					>
+						{data?.user ? "Dashboard" : "Log in"}
+					</a>
 				</div>
 				<Separator className="my-8" />
 				<div className="grid gap-8">
