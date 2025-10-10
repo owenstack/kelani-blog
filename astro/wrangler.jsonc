@@ -3,7 +3,9 @@
 	"name": "beyond-dogma",
 	"main": "./dist/_worker.js",
 	"compatibility_date": "2025-10-05",
-	"compatibility_flags": ["nodejs_compat"],
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
 	"assets": {
 		"binding": "ASSETS",
 		"directory": "./dist",
@@ -11,5 +13,12 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+		{
+			"binding": "beyond_dogma_db",
+			"database_name": "beyond-dogma-db",
+			"database_id": "533b68f9-0804-45de-ba79-19ed53b88203"
+		}
+	]
 }

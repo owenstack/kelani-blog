@@ -8,6 +8,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "./ui/sheet";
+import { useSession } from "@/lib/auth-client";
 
 const navLinks: {
 	title: string;
@@ -47,6 +48,7 @@ const socialLinks: { title: string; href: string }[] = [
 ];
 
 export function NavSheet() {
+	const {data} = useSession()
 	return (
 		<Sheet>
 			<SheetTrigger className={buttonVariants({ variant: "ghost" })}>
@@ -66,11 +68,14 @@ export function NavSheet() {
 							{link.title}
 						</a>
 					))}
+					<a href={data?.user ? '/dashboard' : '/login'} className="-mx-2 rounded-md p-2 text-xl font-medium transition-colors hover:bg-muted/50">
+						{data?.user ? 'Dashboard' : 'Log in'}
+						</a>
 				</div>
 				<Separator className="my-8" />
 				<div className="grid gap-8">
 					<div className="space-y-2">
-						<h3 className="font-[logo] text-lg font-semibold">Beyond dogma</h3>
+						<h3 className="font-[logo] text-lg font-semibold">Beyond Dogma</h3>
 						<p className="text-sm text-muted-foreground">
 							Exploring spirituality, comparing differences and similarities,
 							and seeking truth without bias, for personal salvation and

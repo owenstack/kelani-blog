@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import sanity from "@sanity/astro";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,8 +13,9 @@ export default defineConfig({
 	vite: {
 		plugins: [tailwindcss()],
 	},
-
-	adapter: cloudflare(),
+	adapter: cloudflare({
+		imageService: 'cloudflare'
+	}),
 		output: 'server',
 	integrations: [
 		react(),
@@ -25,4 +26,13 @@ export default defineConfig({
 		}),
 		sitemap(),
 	],
+	env: {
+		schema: {
+			BETTER_AUTH_SECRET: envField.string({context: 'server', access: 'secret'}),
+			GOOGLE_CLIENT_ID: envField.string({context: 'server', access: 'secret'}),
+			GOOGLE_CLIENT_SECRET: envField.string({context: 'server', access: 'secret'}),
+			CLOUDFLARE_D1_API_TOKEN: envField.string({context: 'server', access: 'secret'}),
+			CLOUDFLARE_D1_ACCOUNT_ID: envField.string({context: 'server', access: 'secret'}),
+		}
+	}
 });

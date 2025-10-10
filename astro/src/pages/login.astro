@@ -1,0 +1,14 @@
+---
+import { GoogleSignIn } from "@/components/google";
+import Layout from "./layouts/Layout.astro";
+import Logo from "@/components/logo.astro";
+---
+
+<Layout title="Log in">
+    <section class="min-h-screen flex flex-col items-center justify-center gap-4 p-4">
+        <div class="grid gap-2">
+            <Logo />
+        <GoogleSignIn client:load />
+        </div>
+    </section>
+</Layout>
