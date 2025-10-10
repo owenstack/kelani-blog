@@ -1,0 +1,72 @@
+---
+export const prerender = false;
+const { slug } = Astro.params;
+
+import PortableText from "@/components/portable-text/index.astro";
+import { runQuery } from "@/sanity/queries";
+import { postFromSlugQuery, relatedPostsQuery } from "@/sanity/queries/posts";
+
+import Layout from "../layouts/Layout.astro";
+
+if (!slug) {
+	return Astro.redirect("/");
+}
+
+const post = await runQuery(postFromSlugQuery, { parameters: { slug } });
+if (!post) {
+	return Astro.redirect("/");
+}
+const relatedPosts = await runQuery(relatedPostsQuery, {
+	parameters: { tags: post.tags.map((tag) => tag._id), excludeId: post._id },
+});
+---
+
+<Layout title={post.title} description={post.excerpt} image={post.coverImage ?? undefined} date={post.date} type='article'>
+		<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+            <img src={post.coverImage ?? '/placholder.png'} alt={post.title} class="h-auto w-full border-2 border-border rounded-lg" />
+            <div class="space-y-4">
+                <h1 class="text-balance font-semibold tracking-tight leading-tight text-4xl md:text-5xl lg:text-6xl">
+                    {post.title}
+                </h1>
+                {post.excerpt && (
+                    <p class="max-w-3xl text-lg md:text-xl text-muted-foreground leading-relaxed">
+                        {post.excerpt}
+                    </p>
+                )}
+            </div>
+            <article>
+                <PortableText value={post.content} />
+            </article>
+        </section>
+        {relatedPosts.length > 0 && (
+        <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+            <h2 class="mb-4 text-3xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+				Related
+			</h2>
+            <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {relatedPosts.map((relatedPost) => (
+                    <div class="flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-md">
+                        <a href={`/posts/${relatedPost.slug}`} class="block">
+                            {relatedPost.coverImage && (
+                                <img
+                                    src={relatedPost.coverImage}
+                                    alt={relatedPost.title}
+                                    class="h-48 w-full object-cover"
+                                />
+                            )}
+                        </a>
+                        <div class="flex flex-1 flex-col p-4">
+                            <a href={`/posts/${relatedPost.slug}`} class="block">
+                                <h3 class="mb-2 text-xl font-semibold leading-tight tracking-tight text-primary">
+                                    {relatedPost.title}
+                                </h3>
+                            </a>
+                            <p class="flex-1 text-base leading-relaxed text-muted-foreground line-clamp-3">
+                                {relatedPost.excerpt}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>)}
+</Layout>

@@ -1,0 +1,94 @@
+---
+export const prerender = false;
+
+import { buttonVariants } from "@/components/ui/button";
+import { runQuery } from "@/sanity/queries";
+import {
+	recentPostsQuery,
+	topInteractedPostsQuery,
+} from "@/sanity/queries/home";
+import Layout from "./layouts/Layout.astro";
+
+const topPosts = await runQuery(topInteractedPostsQuery);
+const recentPosts = await runQuery(recentPostsQuery, {
+	parameters: { exclude: topPosts.map((p) => p._id) },
+});
+---
+
+<Layout title="Home">
+		<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+			{
+				topPosts.map((post, i) => (
+					<a
+						href={`/posts/${post.slug}`}
+						class="group block text-foreground"
+						style={`--order: ${i}`}	>
+						<div class="flex flex-col gap-6 transition-transform duration-500 ease-in-out group-hover:scale-[1.02] md:flex-row md:items-center md:gap-12">
+							<div class="flex-1">
+								<h2 class="mb-4 text-3xl font-semibold leading-tight tracking-tight text-primary md:text-5xl lg:text-6xl">
+									{post.title}
+								</h2>
+								<p class="text-base leading-relaxed text-muted-foreground md:text-lg">
+									{post.excerpt}
+								</p>
+							</div>
+
+							{post.coverImage && (
+								<div class="flex-1 md:max-w-md lg:max-w-lg">
+									<img
+										src={post.coverImage}
+										alt={post.title}
+										class="h-auto w-full rounded-lg border-2 border-border shadow-md"
+									/>
+								</div>
+							)}
+						</div>
+					</a>
+				))
+			}
+		</section>
+		<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+			<h2 class="mb-4 text-3xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl">
+				Recent Posts
+			</h2>
+			<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+				{recentPosts.map((post) => (
+					<div class="flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-md">
+						<a href={`/posts/${post.slug}`} class="block">
+							{post.coverImage && (
+								<img
+									src={post.coverImage}
+									alt={post.title}
+									class="h-48 w-full object-cover"
+								/>
+							)}
+						</a>
+						<div class="flex flex-1 flex-col p-4">
+							<a href={`/posts/${post.slug}`} class="block">
+								<h3 class="mb-2 text-xl font-semibold leading-tight tracking-tight text-primary">
+									{post.title}
+								</h3>
+							</a>
+							<p class="flex-1 text-base leading-relaxed text-muted-foreground line-clamp-3">
+								{post.excerpt}
+							</p>
+							{post.tags?.length > 0 && (
+								<div class="mt-auto flex flex-wrap gap-2 border-t border-border/50 pt-4">
+									{post.tags.slice(0, 3).map((tag) => (
+										<a href={`/tags/${tag.slug}`} class={buttonVariants({variant: 'outline', size: 'sm'})}>
+												{tag.title}
+										</a>
+									))}
+									{post.tags.length > 3 && (
+										<span class="inline-flex items-center text-xs text-muted-foreground">
+											+{post.tags.length - 3} more
+										</span>
+									)}
+								</div>
+							)}
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+</Layout>

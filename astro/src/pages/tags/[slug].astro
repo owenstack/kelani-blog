@@ -1,0 +1,118 @@
+---
+export const prerender = false;
+const { slug } = Astro.params;
+
+import { buttonVariants } from "@/components/ui/button";
+import { runQuery } from "@/sanity/queries";
+import {
+	allTagsQuery,
+	postsFromTagQuery,
+	tagFromSlugQuery,
+} from "@/sanity/queries/tags";
+import Layout from "../layouts/Layout.astro";
+
+if (!slug) {
+	return Astro.redirect("/");
+}
+
+const tag = await runQuery(tagFromSlugQuery, {
+	parameters: { slug },
+});
+
+if (!tag) {
+	return Astro.redirect("/");
+}
+const posts = await runQuery(postsFromTagQuery, {
+	parameters: { _id: tag._id },
+});
+
+let allTags: {
+	_id: string;
+	title: string;
+	slug: string;
+}[] = [];
+if (posts.length === 0) {
+	allTags = await runQuery(allTagsQuery);
+}
+---
+
+<Layout title={tag.title} description={tag.description ?? undefined}>
+	<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
+		<div class="flex items-center justify-between gap-4">
+			<h2
+				class="mb-4 text-3xl font-semibold leading-tight tracking-tight md:text-5xl lg:text-6xl"
+			>
+				{tag.title}
+			</h2>
+			{tag.description && <p>{tag.description}</p>}
+		</div>
+		{posts.length > 0 ? (
+			posts.map((post) => (
+				<div
+					class="flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-md"
+				>
+					<a href={`/posts/${post.slug}`} class="block">
+						{post.coverImage && (
+							<img
+								src={post.coverImage}
+								alt={post.title}
+								class="h-48 w-full object-cover"
+							/>
+						)}
+					</a>
+					<div class="flex flex-1 flex-col p-4">
+						<a href={`/posts/${post.slug}`} class="block">
+							<h3
+								class="mb-2 text-xl font-semibold leading-tight tracking-tight text-primary"
+							>
+								{post.title}
+							</h3>
+						</a>
+						<p
+							class="flex-1 text-base leading-relaxed text-muted-foreground line-clamp-3"
+						>
+							{post.excerpt}
+						</p>
+						{post.tags?.length > 0 && (
+							<div
+								class="mt-auto flex flex-wrap gap-2 border-t border-border/50 pt-4"
+							>
+								{post.tags.slice(0, 3).map((tag) => (
+									<a href={`/tags/${tag.slug}`} class={buttonVariants({variant: 'outline', size: 'sm'})}>
+											{tag.title}
+									</a>
+								))}
+								{post.tags.length > 3 && (
+									<span
+										class="inline-flex items-center text-xs text-muted-foreground"
+									>
+										+{post.tags.length - 3} more
+									</span>
+								)}
+							</div>
+						)}
+					</div>
+				</div>
+			))
+		) : (
+			<div class="text-center">
+				<h3 class="text-2xl font-semibold">No posts found for this tag.</h3>
+				<p class="text-muted-foreground mt-2 mb-6">
+					Why not explore other topics or check out our latest articles?
+				</p>
+				{allTags.length > 0 && (
+					<div class="mt-10">
+						<h4 class="text-lg font-semibold mb-4">Explore other tags:</h4>
+						<div class="flex flex-wrap justify-center gap-2">
+							{allTags.map((tag) => (
+								<a href={`/tags/${tag.slug}`} class={buttonVariants({variant: 'outline'})}>
+							{tag.title}
+								</a>
+							))}
+						</div>
+					</div>
+				)}
+			</div>
+		)}
+	</section>
+</Layout>

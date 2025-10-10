@@ -1,0 +1,86 @@
+---
+import "../../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import { SEO } from "astro-seo";
+import { Toaster } from "sonner";
+import Logo from "@/components/logo.astro";
+import { NavSheet } from "@/components/nav";
+import { SearchSheet } from "@/components/search";
+
+export interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+	date?: string;
+	type?: "website" | "article";
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const { title, description, image, date, type = "website" } = Astro.props;
+
+const resolvedImageWithDomain =
+	image ?? new URL("/placeholder.png", Astro.site).toString();
+
+const makeTitle = `${title} | Beyond Dogma`;
+
+const makeDescription = description
+	? description
+	: "Exploring spirituality, comparing differences and similarities, and seeking truth without bias, for personal salvation and spiritual awakening.";
+
+const year = new Date().getFullYear();
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href="/gradient.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+        <ClientRouter />
+		<SEO title={makeTitle} description={makeDescription} canonical={canonicalURL} twitter={{
+            creator: '@owenEEfobi',
+            site: '@owenEEfobi',
+            card: 'summary_large_image',
+            image: resolvedImageWithDomain,
+            title: makeTitle,
+            description: makeDescription,
+            imageAlt: makeDescription
+        }}
+        openGraph={{
+            basic: {
+            title: 'Beyond Dogma',
+            url: canonicalURL,
+            type,
+            image: resolvedImageWithDomain
+            },
+            article: date ? { publishedTime: new Date(date).toISOString() } : undefined,
+        }}/>
+	</head>
+	<body>
+        <header class="sticky top-0 z-40 flex h-16 w-full items-center justify-between px-8 border-b bg-accent">
+			<Logo hideMark={false} className="text-2xl" />
+			<div class="flex items-center gap-4">
+				<SearchSheet client:load />
+				<NavSheet client:load />
+			</div>
+		</header>
+	<main class="min-h-screen w-full bg-gradient-to-b from-background to-secondary/25">
+		<slot />
+		</main>
+    <footer class="w-full flex items-center justify-center border-t bg-accent py-4">
+      <div>© <span id="footer-year">{year}</span> Beyond Dogma. All rights reserved.</div>
+    </footer>
+        <Toaster richColors client:load />
+        <style is:global>
+      /* Improve Page speed */
+      /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
+      img {
+        content-visibility: auto;
+      }
+    </style>
+	</body>
+  <script is:inline data-astro-rerun>
+  document.getElementById("footer-year").innerText = new Date().getFullYear();
+</script>
+</html>

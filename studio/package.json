@@ -1,0 +1,31 @@
+{
+	"name": "@beyonddogma/studio",
+	"private": true,
+	"version": "1.0.0",
+	"main": "package.json",
+	"license": "UNLICENSED",
+	"scripts": {
+		"dev": "sanity dev",
+		"start": "sanity start",
+		"build": "sanity build",
+		"deploy": "sanity deploy",
+		"format": "biome check --write",
+		"sanity:typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
+		"deploy-graphql": "sanity graphql deploy"
+	},
+	"keywords": [
+		"sanity"
+	],
+	"dependencies": {
+		"@sanity/vision": "^4.10.2",
+		"react": "^19.1",
+		"react-dom": "^19.1",
+		"sanity": "^4.10.2",
+		"sanity-plugin-asset-source-unsplash": "^4.0.1",
+		"styled-components": "^6.1.18"
+	},
+	"devDependencies": {
+		"@types/react": "^19.1",
+		"typescript": "^5.8"
+	}
+}
