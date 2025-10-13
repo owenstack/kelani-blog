@@ -30,10 +30,7 @@ export const postsFromTagQuery = q
 				title: z.string(),
 				slug: ["slug.current", z.string()],
 			}),
-		coverImage: sub
-			.field("coverImage.asset")
-			.deref()
-			.field("url", z.string().nullable()),
+		coverImage: sub.field("coverImage.asset").deref().field("url").as<string>(),
 	}));
 
 export const allTagsQuery = q.star.filterByType("tag").project({

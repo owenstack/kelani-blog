@@ -8,10 +8,7 @@ export const topInteractedPostsQuery = q.star
 		title: z.string(),
 		slug: sub.field("slug.current", z.string()),
 		excerpt: z.string(),
-		coverImage: sub
-			.field("coverImage.asset")
-			.deref()
-			.field("url", z.string().nullable()),
+		coverImage: sub.field("coverImage.asset").deref().field("url").as<string>(),
 		commentCount: sub.raw(
 			'count(*[_type == "comment" && post._ref == ^._id])',
 			z.number(),
@@ -39,10 +36,7 @@ export const recentPostsQuery = q
 				title: z.string(),
 				slug: ["slug.current", z.string()],
 			}),
-		coverImage: sub
-			.field("coverImage.asset")
-			.deref()
-			.field("url", z.string().nullable()),
+		coverImage: sub.field("coverImage.asset").deref().field("url").as<string>(),
 	}));
 
 export const searchPostsQuery = q
@@ -57,8 +51,5 @@ export const searchPostsQuery = q
 		title: z.string(),
 		slug: sub.field("slug.current", z.string()),
 		excerpt: z.string(),
-		coverImage: sub
-			.field("coverImage.asset")
-			.deref()
-			.field("url", z.string().nullable()),
+		coverImage: sub.field("coverImage.asset").deref().field("url").as<string>(),
 	}));

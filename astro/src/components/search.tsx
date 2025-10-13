@@ -22,7 +22,7 @@ export function SearchSheet() {
 				_id: string;
 				title: string;
 				slug: string;
-				coverImage: string | null;
+				coverImage: string;
 				excerpt: string;
 		  }[]
 		| null
@@ -32,7 +32,7 @@ export function SearchSheet() {
 		// Don't await, let the sheet open instantly.
 		// The tags will be populated when the fetch completes.
 		// If there's old data in `tags`, it will be shown until the new data arrives.
-		actions.fetchTags().then(({ data, error }) => {
+		actions.queries.fetchTags().then(({ data, error }) => {
 			if (error) {
 				toast.error(error.code, {
 					description: error.message,
@@ -52,7 +52,9 @@ export function SearchSheet() {
 		if (query.trim().length > 0) {
 			setLoading(true);
 			setPosts(null);
-			const { data, error } = await actions.queryPosts({ query: query.trim() });
+			const { data, error } = await actions.queries.queryPosts({
+				query: query.trim(),
+			});
 			if (error) {
 				toast.error(error.code, { description: error.message });
 				setLoading(false);
@@ -111,7 +113,7 @@ export function SearchSheet() {
 								className="flex items-center gap-4 rounded-lg border p-2 transition-colors hover:bg-muted/50"
 							>
 								<img
-									src={post.coverImage ?? "/placeholder.png"}
+									src={post.coverImage}
 									alt={post.title}
 									className="size-24 rounded-md object-cover"
 								/>

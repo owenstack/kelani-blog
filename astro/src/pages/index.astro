@@ -32,8 +32,6 @@ const recentPosts = await runQuery(recentPostsQuery, {
 									{post.excerpt}
 								</p>
 							</div>
-
-							{post.coverImage && (
 								<div class="flex-1 md:max-w-md lg:max-w-lg">
 									<img
 										src={post.coverImage}
@@ -41,7 +39,6 @@ const recentPosts = await runQuery(recentPostsQuery, {
 										class="h-auto w-full rounded-lg border-2 border-border shadow-md"
 									/>
 								</div>
-							)}
 						</div>
 					</a>
 				))
@@ -55,13 +52,11 @@ const recentPosts = await runQuery(recentPostsQuery, {
 				{recentPosts.map((post) => (
 					<div class="flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-md">
 						<a href={`/posts/${post.slug}`} class="block">
-							{post.coverImage && (
-								<img
+						<img
 									src={post.coverImage}
 									alt={post.title}
 									class="h-48 w-full object-cover"
 								/>
-							)}
 						</a>
 						<div class="flex flex-1 flex-col p-4">
 							<a href={`/posts/${post.slug}`} class="block">

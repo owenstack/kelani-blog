@@ -97,7 +97,6 @@ export default defineType({
 			return {
 				title: `${parentComment ? "Reply to comment" : "Comment"} on "${post}" by ${username}`,
 				subtitle: comment,
-				description: comment,
 			};
 		},
 	},

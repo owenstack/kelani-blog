@@ -9,7 +9,7 @@ type Post = {
 	excerpt: string;
 	date: string;
 	slug: string;
-	coverImage: string | null;
+	coverImage: string;
 	tags: {
 		_id: string;
 		title: string;
@@ -21,7 +21,7 @@ export interface Props {
 	initialPosts: Post[];
 }
 
-export default function PostList({ initialPosts }: Props) {
+export function PostList({ initialPosts }: Props) {
 	const [posts, setPosts] = useState<Post[]>(initialPosts);
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasMore, setHasMore] = useState(initialPosts.length === 10);
@@ -35,7 +35,7 @@ export default function PostList({ initialPosts }: Props) {
 		const lastPostId = lastPost._id;
 
 		try {
-			const { data: newPosts, error } = await actions.fetchPosts({
+			const { data: newPosts, error } = await actions.queries.fetchPosts({
 				lastPostDate,
 				lastPostId,
 			});
@@ -69,13 +69,11 @@ export default function PostList({ initialPosts }: Props) {
 						className="flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-md"
 					>
 						<a href={`/posts/${post.slug}`} className="block">
-							{post.coverImage && (
-								<img
-									src={post.coverImage}
-									alt={post.title}
-									className="h-48 w-full object-cover"
-								/>
-							)}
+							<img
+								src={post.coverImage}
+								alt={post.title}
+								className="h-48 w-full object-cover"
+							/>
 						</a>
 						<div className="flex flex-1 flex-col p-4">
 							<a href={`/posts/${post.slug}`} className="block">
@@ -113,7 +111,12 @@ export default function PostList({ initialPosts }: Props) {
 			</div>
 			{hasMore && (
 				<div className="mt-8 text-center">
-					<Button onClick={loadMorePosts} disabled={isLoading}>
+					<Button
+						onClick={loadMorePosts}
+						variant={"outline"}
+						className="w-full"
+						disabled={isLoading}
+					>
 						{isLoading ? "Loading..." : "Load More"}
 					</Button>
 				</div>

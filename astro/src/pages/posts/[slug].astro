@@ -3,9 +3,10 @@ export const prerender = false;
 const { slug } = Astro.params;
 
 import PortableText from "@/components/portable-text/index.astro";
+import { CommentList } from "@/components/posts/comment-list";
 import { runQuery } from "@/sanity/queries";
 import {
-	commentsByPostIdQuery,
+	createCommentsByPostIdQuery,
 	postFromSlugQuery,
 	relatedPostsQuery,
 } from "@/sanity/queries/posts";
@@ -20,17 +21,28 @@ if (!post) {
 	return Astro.redirect("/");
 }
 
+const email = Astro.locals.user?.email || "";
+
 const [relatedPosts, comments] = await Promise.all([
 	runQuery(relatedPostsQuery, {
 		parameters: { tags: post.tags.map((tag) => tag._id), excludeId: post._id },
 	}),
-	runQuery(commentsByPostIdQuery, { parameters: { postId: post._id } }),
+	runQuery(createCommentsByPostIdQuery(10), {
+		parameters: {
+			postId: post._id,
+			email,
+			lastInteractionScore: 9999999,
+			lastCommentId: "~",
+		},
+	}),
 ]);
+
+console.log("comments: ", comments);
 ---
 
-<Layout title={post.title} description={post.excerpt} image={post.coverImage ?? undefined} date={post.date} type='article'>
+<Layout title={post.title} description={post.excerpt} image={post.coverImage} date={post.date} type='article'>
 		<section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
-            <img src={post.coverImage ?? '/placholder.png'} alt={post.title} class="h-auto w-full border-2 border-border rounded-lg" />
+            <img src={post.coverImage} alt={post.title} class="h-auto w-full border-2 border-border rounded-lg" />
             <div class="space-y-4">
                 <h1 class="text-balance font-semibold tracking-tight leading-tight text-4xl md:text-5xl lg:text-6xl">
                     {post.title}
@@ -49,6 +61,7 @@ const [relatedPosts, comments] = await Promise.all([
             <h2 class="mb-4 text-2xl font-semibold leading-tight tracking-tight md:text-4xl lg:text-5xl">
 				Comments
 			</h2>
+            <CommentList client:load postId={post._id} initialComments={comments} />
         </section>
         {relatedPosts.length > 0 && (
         <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
@@ -59,13 +72,12 @@ const [relatedPosts, comments] = await Promise.all([
                 {relatedPosts.map((relatedPost) => (
                     <div class="flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-sm transition-shadow duration-300 ease-in-out hover:shadow-md">
                         <a href={`/posts/${relatedPost.slug}`} class="block">
-                            {relatedPost.coverImage && (
+                          
                                 <img
                                     src={relatedPost.coverImage}
                                     alt={relatedPost.title}
                                     class="h-48 w-full object-cover"
                                 />
-                            )}
                         </a>
                         <div class="flex flex-1 flex-col p-4">
                             <a href={`/posts/${relatedPost.slug}`} class="block">
