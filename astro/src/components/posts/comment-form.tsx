@@ -2,7 +2,7 @@ import { actions } from "astro:actions";
 import { Send } from "lucide-react";
 import type { FormEvent } from "react";
 import { toast } from "sonner";
-import { useStore } from "../../hooks/use-store";
+import { useStore } from "@/hooks/use-store";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
@@ -13,7 +13,7 @@ export function CommentForm({
 	postId: string;
 	parentCommentId?: string;
 }) {
-	const { revalidate } = useStore.getState();
+	const { refetch } = useStore.getState();
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -31,7 +31,16 @@ export function CommentForm({
 						toast.error(res.error.code, { description: res.error.message });
 						return "Processing complete";
 					}
-					revalidate(`comments-${postId}`);
+					setTimeout(() => {
+						void refetch(`comments-${postId}`, async () =>
+							actions.queries.fetchComments({
+								postId,
+								lastInteractionScore: Number.MAX_SAFE_INTEGER,
+								lastCommentId: "~",
+								limit: 10,
+							}),
+						);
+					}, 300);
 					return res.data.message;
 				},
 				error: (err) => err.message || "Failed to post comment",

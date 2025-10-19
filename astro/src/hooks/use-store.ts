@@ -17,6 +17,7 @@ interface Store {
 	cache: Cache;
 	set: <T>(key: string, data: T, fetcher?: Fetcher<T>) => void;
 	revalidate: (key: string) => Promise<void>;
+	refetch: <T>(key: string, fetcher: Fetcher<T>) => Promise<void>;
 }
 
 export const useStore = create<Store>((set, get) => ({
@@ -62,6 +63,38 @@ export const useStore = create<Store>((set, get) => ({
 				cache: {
 					...state.cache,
 					[key]: { ...entry, isFetching: false },
+				},
+			}));
+		}
+	},
+	refetch: async <T>(key: string, fetcher: Fetcher<T>) => {
+		set((state) => ({
+			cache: {
+				...state.cache,
+				[key]: { ...state.cache[key], isFetching: true },
+			},
+		}));
+
+		try {
+			const newData = await fetcher();
+			console.log("Refetched data for key:", key, newData);
+			set((state) => ({
+				cache: {
+					...state.cache,
+					[key]: {
+						...state.cache[key],
+						data: newData,
+						fetcher, // also update the fetcher
+						isFetching: false,
+					},
+				},
+			}));
+		} catch (error) {
+			console.error(`Failed to refetch key "${key}":`, error);
+			set((state) => ({
+				cache: {
+					...state.cache,
+					[key]: { ...state.cache[key], isFetching: false },
 				},
 			}));
 		}

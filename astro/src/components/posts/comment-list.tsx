@@ -2,21 +2,10 @@ import { actions } from "astro:actions";
 import { Reply, ReplyAll, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useStore } from "../../hooks/use-store";
+import { useStore } from "@/hooks/use-store";
+import type { Comment } from "@/lib/types";
 import { Button } from "../ui/button";
 import { CommentForm } from "./comment-form";
-
-type Comment = {
-	_id: string;
-	username: string;
-	comment: string;
-	likes: number | null;
-	dislikes: number | null;
-	interactionScore: number;
-	replies: number;
-	likedBy: boolean;
-	dislikedBy: boolean;
-};
 
 export interface Props {
 	postId: string;
@@ -32,49 +21,56 @@ export function CommentList({ initialComments, postId }: Props) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasMore, setHasMore] = useState(initialComments.length === 10);
 
-	const lastComment = comments[comments.length - 1];
-	const lastInteractionScore = lastComment?.interactionScore ?? 999999;
-	const lastCommentId = lastComment?._id ?? "~";
-
-	const fetcher = useCallback(async () => {
-		const { data: newComments, error } = await actions.queries.fetchComments({
-			postId,
-			lastInteractionScore,
-			lastCommentId,
-		});
-		if (error) {
-			toast.error(error.code, { description: error.message });
-			return []; // Return empty array on error
-		}
-		console.log("fetched comments: ", newComments);
-		return newComments ?? [];
-	}, [postId, lastInteractionScore, lastCommentId]);
+	const createFetcher = useCallback(
+		(lastComment: Comment | undefined) => {
+			const lastInteractionScore =
+				lastComment?.interactionScore ?? Number.MAX_SAFE_INTEGER;
+			const lastCommentId = lastComment?._id ?? "~";
+			return async () => {
+				const { data: newComments, error } =
+					await actions.queries.fetchComments({
+						postId,
+						lastInteractionScore,
+						lastCommentId,
+					});
+				if (error) {
+					toast.error(error.code, { description: error.message });
+					return []; // Return empty array on error
+				}
+				console.log("fetched comments: ", newComments);
+				return newComments ?? [];
+			};
+		},
+		[postId],
+	);
 
 	useEffect(() => {
-		set(`comments-${postId}`, initialComments, fetcher);
-	}, [postId, fetcher, set, initialComments]);
+		set(
+			`comments-${postId}`,
+			initialComments,
+			createFetcher(initialComments[initialComments.length - 1]),
+		);
+	}, [postId, set, initialComments, createFetcher]);
 
 	async function loadMoreComments() {
 		if (isLoading || !hasMore) return;
 		setIsLoading(true);
 
 		try {
-			const { data: newComments, error } = await actions.queries.fetchComments({
-				postId,
-				lastInteractionScore,
-				lastCommentId,
-			});
-			if (error) {
-				toast.error(error.code, { description: error.message });
-				return;
-			}
+			const currentComments =
+				useStore.getState().cache[`comments-${postId}`]?.data ?? [];
+			const lastComment = currentComments[currentComments.length - 1];
+
+			const fetcher = createFetcher(lastComment);
+			const newComments = await fetcher();
+
 			if (newComments && newComments.length > 0) {
-				const currentComments =
-					useStore.getState().cache[`comments-${postId}`]?.data ?? [];
+				const updatedComments = [...currentComments, ...newComments];
+				const newLastComment = updatedComments[updatedComments.length - 1];
 				set(
 					`comments-${postId}`,
-					[...currentComments, ...newComments],
-					fetcher,
+					updatedComments,
+					createFetcher(newLastComment),
 				);
 				setHasMore(newComments.length === 10);
 			} else {

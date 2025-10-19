@@ -31,7 +31,7 @@ const [relatedPosts, comments] = await Promise.all([
 		parameters: {
 			postId: post._id,
 			email,
-			lastInteractionScore: 9999999,
+			lastInteractionScore: Number.MAX_SAFE_INTEGER,
 			lastCommentId: "~",
 		},
 	}),
