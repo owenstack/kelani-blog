@@ -9,12 +9,9 @@ export const topInteractedPostsQuery = q.star
 		slug: sub.field("slug.current", z.string()),
 		excerpt: z.string(),
 		coverImage: sub.field("coverImage.asset").deref().field("url").as<string>(),
-		commentCount: sub.raw(
-			'count(*[_type == "comment" && post._ref == ^._id])',
-			z.number(),
-		),
+		_updatedAt: z.string(),
 	}))
-	.order("commentCount desc")
+	.order("_updatedAt desc")
 	.slice(0, 2);
 
 export const recentPostsQuery = q

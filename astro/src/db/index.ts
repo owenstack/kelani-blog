@@ -4,7 +4,6 @@ import { drizzle as drizzleLibSQL } from "drizzle-orm/libsql";
 import { getLocalD1DB } from "../../get-db";
 import * as schema from "./schema";
 
-// @ts-expect-error
 const getDb = async () => {
 	if (import.meta.env.DEV) {
 		const client = createClient({
@@ -13,7 +12,6 @@ const getDb = async () => {
 		return drizzleLibSQL(client, { schema });
 	} else {
 		const { env } = await import("cloudflare:workers");
-		// @ts-expect-error
 		return drizzleD1(env.beyond_dogma_db, { schema });
 	}
 };

@@ -3,13 +3,8 @@ export const prerender = false;
 const { slug } = Astro.params;
 
 import PortableText from "@/components/portable-text/index.astro";
-import { CommentList } from "@/components/posts/comment-list";
 import { runQuery } from "@/sanity/queries";
-import {
-	createCommentsByPostIdQuery,
-	postFromSlugQuery,
-	relatedPostsQuery,
-} from "@/sanity/queries/posts";
+import { postFromSlugQuery, relatedPostsQuery } from "@/sanity/queries/posts";
 import Layout from "../layouts/Layout.astro";
 
 if (!slug) {
@@ -23,21 +18,11 @@ if (!post) {
 
 const email = Astro.locals.user?.email || "";
 
-const [relatedPosts, comments] = await Promise.all([
+const [relatedPosts] = await Promise.all([
 	runQuery(relatedPostsQuery, {
 		parameters: { tags: post.tags.map((tag) => tag._id), excludeId: post._id },
 	}),
-	runQuery(createCommentsByPostIdQuery(10), {
-		parameters: {
-			postId: post._id,
-			email,
-			lastInteractionScore: Number.MAX_SAFE_INTEGER,
-			lastCommentId: "~",
-		},
-	}),
 ]);
-
-console.log("comments: ", comments);
 ---
 
 <Layout title={post.title} description={post.excerpt} image={post.coverImage} date={post.date} type='article'>
@@ -56,12 +41,6 @@ console.log("comments: ", comments);
             <article>
                 <PortableText value={post.content} />
             </article>
-        </section>
-        <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
-            <h2 class="mb-4 text-2xl font-semibold leading-tight tracking-tight md:text-4xl lg:text-5xl">
-				Comments
-			</h2>
-            <CommentList client:load postId={post._id} initialComments={comments} />
         </section>
         {relatedPosts.length > 0 && (
         <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">
