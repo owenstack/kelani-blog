@@ -6,6 +6,8 @@ import { Toaster } from "sonner";
 import Logo from "@/components/logo.astro";
 import { NavSheet } from "@/components/nav";
 import { SearchSheet } from "@/components/search";
+import { runQuery } from "@/sanity/queries";
+import { siteSettingsQuery } from "@/sanity/queries/settings";
 
 export interface Props {
 	title: string;
@@ -15,17 +17,21 @@ export interface Props {
 	type?: "website" | "article";
 }
 
+const [siteSettings] = await runQuery(siteSettingsQuery);
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const { title, description, image, date, type = "website" } = Astro.props;
 
 const resolvedImageWithDomain =
-	image ?? new URL("/placeholder.png", Astro.site).toString();
+	image ?? new URL(siteSettings.ogImage, Astro.site).toString();
 
-const makeTitle = `${title} | Beyond Dogma`;
+const makeTitle = `${title} | ${siteSettings.title}`;
 
 const makeDescription = description
 	? description
-	: "Exploring spirituality, comparing differences and similarities, and seeking truth without bias, for personal salvation and spiritual awakening.";
+	: siteSettings.description
+		? siteSettings.description
+		: "Explore articles on spirituality, personal growth, and more at Beyond Dogma.";
 
 const year = new Date().getFullYear();
 ---
@@ -62,7 +68,7 @@ const year = new Date().getFullYear();
 			<Logo hideMark={false} className="text-2xl" />
 			<div class="flex items-center gap-4">
 				<SearchSheet client:load />
-				<NavSheet client:load />
+				<NavSheet socialLinks={siteSettings.socialLinks ?? []} client:load />
 			</div>
 		</header>
 	<main class="min-h-screen w-full bg-gradient-to-b from-background to-secondary/25">

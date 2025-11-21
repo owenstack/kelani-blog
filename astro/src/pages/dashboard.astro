@@ -2,7 +2,91 @@
 import Layout from "./layouts/Layout.astro";
 ---
 
-<Layout title='Dashboard'>
-    <h1 class="text-3xl font-bold">Dashboard</h1>
-    <p class="mt-4 text-lg">Welcome to your dashboard! Here you can manage your account and view your activity.</p>
+<Layout title="Dashboard">
+    <main class="dashboard" aria-labelledby="dashboard-heading">
+        <div class="container">
+            <header class="hero">
+                <h1 id="dashboard-heading">Dashboard — Work in progress</h1>
+                <p class="lead">This area will contain analytics, recent activity, and content management tools. For now, consider this a placeholder while the dashboard is being built.</p>
+                <p class="meta">Last updated: <time datetime="2025-11-21">Nov 21, 2025</time></p>
+            </header>
+
+            <section class="cards" aria-label="Dashboard preview">
+                <article class="card" aria-hidden="true">
+                    <h2>Overview</h2>
+                    <p>High-level site metrics and a snapshot of recent activity will appear here.</p>
+                </article>
+
+                <article class="card" aria-hidden="true">
+                    <h2>Content</h2>
+                    <p>Drafts, scheduled posts, and editorial status for managed content.</p>
+                </article>
+
+                <article class="card" aria-hidden="true">
+                    <h2>Settings</h2>
+                    <p>Site configuration, integrations, and user management tools.</p>
+                </article>
+            </section>
+
+            <footer class="note">
+                <p>If you'd like to help accelerate development, contributions are welcome — contact admin for details</p>
+            </footer>
+        </div>
+    </main>
+
+    <style>
+        .dashboard { padding: 48px 16px; display:flex; justify-content:center; }
+        .container { max-width: 960px; width:100%; }
+        .hero { margin-bottom: 24px; }
+        .hero h1 {
+            margin: 0 0 8px;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            font-size: clamp(1.5rem, 3.4vw, 2.25rem);
+            line-height: 1.05;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .lead {
+            margin: 0 0 12px;
+            color: #4b5563;
+            font-size: 1rem;
+            max-width: 70ch;
+        }
+        .meta {
+            margin: 0 0 20px;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid #e6e9ee;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(16,24,40,0.03);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(16,24,40,0.06); }
+        .card h2 { margin: 0 0 8px; font-size: 1.05rem; }
+        .card p { margin: 0; color: #374151; }
+
+        .note {
+            color: #6b7280;
+            font-size: 0.95rem;
+            border-top: 1px dashed #e6e9ee;
+            padding-top: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root { color-scheme: dark; }
+            .card { background: #071024; border-color: #122037; box-shadow: none; color: #e6eef8; }
+            .lead, .meta, .note, .card p { color: #9aa8bd; }
+        }
+    </style>
 </Layout>

@@ -28,26 +28,11 @@ const navLinks: {
 	},
 ];
 
-const socialLinks: { title: string; href: string }[] = [
-	{
-		title: "Twitter",
-		href: "https://twitter.com/@owenEEfobi",
-	},
-	{
-		title: "GitHub",
-		href: "https://github.com/owenstack",
-	},
-	{
-		title: "LinkedIn",
-		href: "https://linkedin.com/in/j1d30f0r",
-	},
-	{
-		title: "Email",
-		href: "mailto:owen@efobi.dev",
-	},
-];
+interface NavSheetProps {
+	socialLinks: Array<{ title: string; url: string }>;
+}
 
-export function NavSheet() {
+export function NavSheet({ socialLinks }: NavSheetProps) {
 	const { data } = useSession();
 	return (
 		<Sheet>
@@ -94,8 +79,8 @@ export function NavSheet() {
 										variant: "link",
 										className: "h-auto p-0 text-muted-foreground",
 									})}
-									key={link.href}
-									href={link.href}
+									key={link.url}
+									href={link.url}
 								>
 									{link.title}
 								</a>
