@@ -30,9 +30,10 @@ const navLinks: {
 
 interface NavSheetProps {
 	socialLinks: Array<{ title: string; url: string }>;
+	subject: { title: string; description: string };
 }
 
-export function NavSheet({ socialLinks }: NavSheetProps) {
+export function NavSheet({ socialLinks, subject }: NavSheetProps) {
 	const { data } = useSession();
 	return (
 		<Sheet>
@@ -63,11 +64,11 @@ export function NavSheet({ socialLinks }: NavSheetProps) {
 				<Separator className="my-8" />
 				<div className="grid gap-8">
 					<div className="space-y-2">
-						<h3 className="font-[logo] text-lg font-semibold">Beyond Dogma</h3>
+						<h3 className="font-[logo] text-lg font-semibold">
+							{subject.title}
+						</h3>
 						<p className="text-sm text-muted-foreground">
-							Exploring spirituality, comparing differences and similarities,
-							and seeking truth without bias, for personal salvation and
-							spiritual awakening.
+							{subject.description}
 						</p>
 					</div>
 					<div className="space-y-2">

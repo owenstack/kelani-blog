@@ -68,7 +68,7 @@ const year = new Date().getFullYear();
 			<Logo hideMark={false} className="text-2xl" />
 			<div class="flex items-center gap-4">
 				<SearchSheet client:load />
-				<NavSheet socialLinks={siteSettings.socialLinks ?? []} client:load />
+				<NavSheet socialLinks={siteSettings.socialLinks ?? []} subject={{ title: siteSettings.title, description: siteSettings.description }} client:load />
 			</div>
 		</header>
 	<main class="min-h-screen w-full bg-gradient-to-b from-background to-secondary/25">
