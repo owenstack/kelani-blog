@@ -98,7 +98,7 @@ export default defineType({
 			title: "Tags",
 			type: "array",
 			of: [{ type: "reference", to: [{ type: "tag" }] }],
-			validation: (rule) => rule.required(),
+			validation: (rule) => rule.required().min(2),
 		}),
 	],
 	preview: {

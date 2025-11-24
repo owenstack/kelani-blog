@@ -16,8 +16,6 @@ if (!post) {
 	return Astro.redirect("/");
 }
 
-const email = Astro.locals.user?.email || "";
-
 const [relatedPosts] = await Promise.all([
 	runQuery(relatedPostsQuery, {
 		parameters: { tags: post.tags.map((tag) => tag._id), excludeId: post._id },
@@ -41,6 +39,7 @@ const [relatedPosts] = await Promise.all([
             <article>
                 <PortableText value={post.content} />
             </article>
+            <span class="-mt-16 text-muted-foreground text-sm">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.')}</span>
         </section>
         {relatedPosts.length > 0 && (
         <section class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-16">

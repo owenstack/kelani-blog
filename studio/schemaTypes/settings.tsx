@@ -42,6 +42,7 @@ export default defineType({
 					type: "string",
 					validation: (rule) => {
 						return rule.custom((alt, context) => {
+							// biome-ignore lint/suspicious/noExplicitAny: <type is unknown>
 							if ((context.document?.ogImage as any)?.asset?._ref && !alt) {
 								return "Required";
 							}
@@ -70,7 +71,8 @@ export default defineType({
 							name: "url",
 							title: "URL",
 							type: "url",
-							validation: (rule) => rule.required().uri({ scheme: ["http", "https", "mailto"] }),
+							validation: (rule) =>
+								rule.required().uri({ scheme: ["http", "https", "mailto"] }),
 						}),
 					],
 					preview: {
